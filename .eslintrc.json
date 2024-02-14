@@ -19,16 +19,7 @@
     "react-native/react-native": true
   },
   "rules": {
-    "no-var": "error",
-    "indent": [
-      "error",
-      2
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "no-unused-vars": "error",
-    "prefer-const": "error"
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
