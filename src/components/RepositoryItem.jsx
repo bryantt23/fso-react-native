@@ -36,6 +36,28 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+    // const starsCount = (stars) => {
+    //     if (stars < 1000) {
+    //         return stars
+    //     }
+
+    //     return `${parseInt(stars / 1000)}.${(stars % 1000) / 100}k`
+    // }
+    const starsCount = (stars) => {
+        if (stars < 1000) {
+            return stars.toString();
+        }
+
+        const thousands = parseInt(stars / 1000);
+        const remainder = stars % 1000;
+        if (remainder === 0) {
+            return `${thousands}k`; // Return without decimal place if it's an exact multiple of 1000
+        }
+
+        const decimal = parseInt(remainder / 100);
+        return `${thousands}.${decimal}k`;
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.topContainer}>
@@ -48,7 +70,7 @@ const RepositoryItem = ({ item }) => {
             </View>
             <View style={styles.statsContainer}>
                 <View style={styles.stat}>
-                    <Text style={styles.statCount}>{item.stargazersCount}</Text>
+                    <Text style={styles.statCount}>{starsCount(item.stargazersCount)}</Text>
                     <Text>Stars</Text>
                 </View>
                 <View style={styles.stat}>
