@@ -1,4 +1,5 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import Text from './Text';
 
 const styles = StyleSheet.create({
     container: {
@@ -36,13 +37,6 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
-    // const starsCount = (stars) => {
-    //     if (stars < 1000) {
-    //         return stars
-    //     }
-
-    //     return `${parseInt(stars / 1000)}.${(stars % 1000) / 100}k`
-    // }
     const starsCount = (stars) => {
         if (stars < 1000) {
             return stars.toString();
