@@ -2,18 +2,27 @@ import React from 'react';
 import { View, Pressable, Text } from 'react-native';
 import { Formik } from 'formik';
 import FormikTextInput from './FormikTextInput';
-import theme from '../theme'; // make sure to import your theme
+import * as yup from 'yup';
 
 // Your SignIn component
 const SignIn = () => {
     const onSubmit = (values) => {
         console.log(values);
     };
+    const validationSchema = yup.object().shape({
+        username: yup
+            .string()
+            .required('Username is required'),
+        password: yup
+            .string()
+            .required('Password is required'),
+    });
 
     return (
         <Formik
             initialValues={{ username: '', password: '' }}
             onSubmit={onSubmit}
+            validationSchema={validationSchema}
         >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <View>
