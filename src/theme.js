@@ -15,6 +15,13 @@ const theme = {
         normal: '400',
         bold: '700',
     },
+    backgroundColor: {
+        backgroundColor: '#24292e',
+        textColor: 'white'
+    },
+    statusBar: {
+        height: 100
+    }
 };
 
 export default theme;
