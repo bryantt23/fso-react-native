@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import theme from '../theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -15,20 +16,21 @@ const styles = StyleSheet.create({
         color: theme.backgroundColor.textColor,
         fontSize: theme.fontSizes.subheading, // Increased font size, assuming 'subheading' is larger than 'body'
     },
-    // ... (other styles if needed)
+    link: {
+        marginRight: 10, // Add some margin if you have multiple items
+    },
 });
 
 const AppBar = () => {
-    const handlePress = () => {
-        console.log('Repositories');
-    };
-
     return (
         <View style={styles.container}>
-            <Pressable onPress={handlePress}>
+            <Link to="/" component={Pressable} style={styles.link}>
                 <Text style={styles.text}>Repositories</Text>
-            </Pressable>
-        </View>
+            </Link>
+            <Link to="/sign-in" component={Pressable} style={styles.link}>
+                <Text style={styles.text}>Sign In</Text>
+            </Link>
+        </View >
     );
 };
 
