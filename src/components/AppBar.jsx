@@ -6,32 +6,45 @@ import { Link } from 'react-router-native';
 const styles = StyleSheet.create({
     container: {
         backgroundColor: theme.backgroundColor.backgroundColor,
-        // Assuming you have a status bar height in your theme, otherwise use a fixed value or import from Constants
         height: theme.statusBar ? theme.statusBar.height : 50,
-        display: 'flex',
-        justifyContent: 'center',
-        paddingLeft: 5,
+        flexDirection: 'row', // Align children in a row
+        alignItems: 'center', // Center children vertically
+    },
+    scrollView: {
+        flex: 1, // Take up all available space
+    },
+    link: {
+        marginRight: 20, // Add some margin for spacing between items
+        paddingVertical: 10, // Add some vertical padding for touch area
     },
     text: {
         color: theme.backgroundColor.textColor,
-        fontSize: theme.fontSizes.subheading, // Increased font size, assuming 'subheading' is larger than 'body'
+        fontSize: theme.fontSizes.subheading,
     },
-    link: {
-        marginRight: 10, // Add some margin if you have multiple items
-    },
+    // Add styles for active tab indicator if needed
 });
 
 const AppBar = () => {
+    // Logic to determine active tab can go here
+
     return (
         <View style={styles.container}>
-            <ScrollView horizontal>
+            <ScrollView
+                horizontal
+                style={styles.scrollView}
+                showsHorizontalScrollIndicator={false} // Optionally hide the horizontal scroll indicators
+                contentContainerStyle={{ paddingHorizontal: 10 }} // Add padding on the sides
+            >
+                {/* Links/Tabs go here */}
                 <Link to="/" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
                 <Link to="/sign-in" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Sign In</Text>
-                </Link></ScrollView>
-        </View >
+                </Link>
+                {/* Add more links/tabs as needed */}
+            </ScrollView>
+        </View>
     );
 };
 
