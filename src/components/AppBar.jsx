@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Pressable, Text } from 'react-native';
+import { View, StyleSheet, Pressable, Text, ScrollView } from 'react-native';
 import theme from '../theme';
 import { Link } from 'react-router-native';
 
@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
 const AppBar = () => {
     return (
         <View style={styles.container}>
-            <Link to="/" component={Pressable} style={styles.link}>
-                <Text style={styles.text}>Repositories</Text>
-            </Link>
-            <Link to="/sign-in" component={Pressable} style={styles.link}>
-                <Text style={styles.text}>Sign In</Text>
-            </Link>
+            <ScrollView horizontal>
+                <Link to="/" component={Pressable} style={styles.link}>
+                    <Text style={styles.text}>Repositories</Text>
+                </Link>
+                <Link to="/sign-in" component={Pressable} style={styles.link}>
+                    <Text style={styles.text}>Sign In</Text>
+                </Link></ScrollView>
         </View >
     );
 };
