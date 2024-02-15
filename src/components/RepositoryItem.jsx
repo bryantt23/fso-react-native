@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { Platform, View, Image, StyleSheet } from 'react-native';
 import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -17,7 +17,11 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     language: {
-        backgroundColor: '#0366d6',
+        backgroundColor: Platform.select({
+            android: 'orange', // Orange background for Android
+            ios: '#0366d6', // Original blue color for iOS
+            default: '#0366d6', // Default to blue for other platforms
+        }),
         color: 'white',
         padding: 5,
         borderRadius: 5,
