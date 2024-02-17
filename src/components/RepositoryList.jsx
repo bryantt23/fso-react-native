@@ -1,8 +1,8 @@
-import { ActivityIndicator, FlatList, View, StyleSheet, Picker } from 'react-native';
-import RepositoryItem from './RepositoryItem'
-import useRepositories from '../hooks/useRepositories'
+import React, { useState, useCallback } from 'react';
+import { ActivityIndicator, FlatList, View, StyleSheet, Picker, TextInput } from 'react-native';
+import RepositoryItem from './RepositoryItem';
+import useRepositories from '../hooks/useRepositories';
 import Text from './Text';
-import { useState } from 'react'
 
 const styles = StyleSheet.create({
     separator: {
@@ -29,21 +29,43 @@ const styles = StyleSheet.create({
     picker: {
         margin: 10,
     },
+    input: {
+        borderColor: 'gray',
+        borderWidth: 1,
+        padding: 10,
+        marginBottom: 10,
+        borderRadius: 5,
+    },
 });
 
+const RepositoryListHeader = React.memo(({ sort, onSortChange, onSearchKeywordChange, searchKeyword }) => {
+    return (
+        <View style={styles.picker}>
+            <Picker
+                selectedValue={sort}
+                onValueChange={onSortChange}>
+                <Picker.Item label="Latest repositories" value="latest" />
+                <Picker.Item label="Highest rated repositories" value="highestRated" />
+                <Picker.Item label="Lowest rated repositories" value="lowestRated" />
+            </Picker>
+            <TextInput
+                onChangeText={onSearchKeywordChange}
+                value={searchKeyword}
+                style={styles.input}
+                placeholder="Search for repositories"
+            />
+        </View>
+    );
+});
 
 const RepositoryList = () => {
     const [sort, setSort] = useState('latest');
     const [orderBy, setOrderBy] = useState('CREATED_AT');
     const [orderDirection, setOrderDirection] = useState('DESC');
-    const { repositories, loading, error, refetch } = useRepositories(orderBy, orderDirection);
-    console.log("🚀 ~ RepositoryList ~ loading:", loading)
-    console.log("🚀 ~ RepositoryList ~ repositories:", repositories)
-    console.log("🚀 ~ RepositoryList ~ error:", error)
+    const [searchKeyword, setSearchKeyword] = useState('');
 
-    // Function to handle the picker selection
-    const handleSortChange = (selectedSort) => {
-        setSort(selectedSort); // Update the picker's selected value state
+    const handleSortChange = useCallback((selectedSort) => {
+        setSort(selectedSort);
         if (selectedSort === 'latest') {
             setOrderBy('CREATED_AT');
             setOrderDirection('DESC');
@@ -54,26 +76,13 @@ const RepositoryList = () => {
             setOrderBy('RATING_AVERAGE');
             setOrderDirection('ASC');
         }
-    };
+    }, []);
 
+    const handleSearchKeywordChange = useCallback((value) => {
+        setSearchKeyword(value);
+    }, []);
 
-    const renderItem = ({ item }) => <RepositoryItem item={item} />;
-
-    const renderHeader = () => {
-        return (
-            <View style={styles.picker}>
-                <Picker
-                    selectedValue={sort}
-                    onValueChange={(itemValue) => {
-                        handleSortChange(itemValue)
-                    }}>
-                    <Picker.Item label="Latest repositories" value="latest" />
-                    <Picker.Item label="Highest rated repositories" value="highestRated" />
-                    <Picker.Item label="Lowest rated repositories" value="lowestRated" />
-                </Picker>
-            </View>
-        );
-    };
+    const { repositories, loading, error } = useRepositories(orderBy, orderDirection, searchKeyword);
 
     if (loading) {
         return (
@@ -94,9 +103,17 @@ const RepositoryList = () => {
     return (
         <FlatList
             data={repositories}
-            renderItem={renderItem}
+            renderItem={({ item }) => <RepositoryItem item={item} />}
             keyExtractor={item => item.id}
-            ListHeaderComponent={renderHeader}
+            ListHeaderComponent={() => (
+                <RepositoryListHeader
+                    sort={sort}
+                    onSortChange={handleSortChange}
+                    onSearchKeywordChange={handleSearchKeywordChange}
+                    searchKeyword={searchKeyword}
+                />
+            )}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
     );
 };
