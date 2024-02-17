@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import useMe from '../hooks/useMe'; // import your useMe hook
+import useMe from '../hooks/useMe'; // make sure to import your useMe hook correctly
 
 const styles = StyleSheet.create({
     container: {
@@ -22,27 +22,48 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
     },
-    reviewText: {
-        fontSize: 16,
-        marginBottom: 5,
+    reviewHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    reviewRatingContainer: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        borderWidth: 2,
+        borderColor: '#0366d6',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     reviewRating: {
         fontWeight: 'bold',
+        color: '#0366d6',
     },
     reviewDate: {
         color: 'gray',
         fontSize: 14,
     },
+    reviewText: {
+        fontSize: 16,
+        color: 'black',
+    },
 });
 
 const ReviewItem = ({ review }) => {
-    console.log("🚀 ~ ReviewItem ~ review:", review)
+    // Convert date string to a Date object
+    const reviewDate = new Date(review.createdAt).toLocaleDateString();
+
     return (
         <View style={styles.reviewItem}>
-            <Text style={styles.reviewRating}> {review.repository.fullName}</Text>
-            <Text style={styles.reviewRating}>Rating: {review.rating}</Text>
+            <View style={styles.reviewHeader}>
+                <Text style={styles.reviewRating}> {review.repository.fullName}</Text>
+                <View style={styles.reviewRatingContainer}>
+                    <Text style={styles.reviewRating}>{review.rating}</Text>
+                </View>
+                <Text style={styles.reviewDate}>{reviewDate}</Text>
+            </View>
             <Text style={styles.reviewText}>{review.text}</Text>
-            <Text style={styles.reviewDate}>{new Date(review.createdAt).toLocaleDateString()}</Text>
         </View>
     );
 };
@@ -51,11 +72,11 @@ const MyReviews = () => {
     const { reviews, loading, error } = useMe();
 
     if (loading) {
-        return <Text>Loading reviews...</Text>;
+        return <View style={styles.centered}><Text>Loading reviews...</Text></View>;
     }
 
     if (error) {
-        return <Text>An error occurred: {error.message}</Text>;
+        return <View style={styles.centered}><Text>An error occurred: {error.message}</Text></View>;
     }
 
     return (
