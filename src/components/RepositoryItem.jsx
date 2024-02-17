@@ -1,10 +1,16 @@
-import { Platform, View, Image, StyleSheet } from 'react-native';
+import React from 'react';
+import { Platform, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Text from './Text';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
+    // Styles remain mostly unchanged, just add the border to the container style
     container: {
         padding: 20,
         backgroundColor: 'white',
+        borderWidth: 1, // Added border width
+        borderColor: '#ccc', // Added border color
+        borderRadius: 5, // Optional: added border radius
     },
     topContainer: {
         flexDirection: 'row',
@@ -41,6 +47,7 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+    console.log("🚀 ~ RepositoryItem ~ item:", item)
     const starsCount = (stars) => {
         if (stars < 1000) {
             return stars.toString();
@@ -57,34 +64,36 @@ const RepositoryItem = ({ item }) => {
     };
 
     return (
-        <View style={styles.container} testID="repositoryItem">
-            <View style={styles.topContainer}>
-                <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
-                <View>
-                    <Text>{item.fullName}</Text>
-                    <Text>{item.description}</Text>
-                    {item.language && <Text style={styles.language}>{item.language}</Text>}
+        <Link to={`/${item.id}`} component={TouchableOpacity} underlayColor="#f0f4f7">
+            <View style={styles.container} testID="repositoryItem" >
+                <View style={styles.topContainer}>
+                    <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
+                    <View>
+                        <Text>{item.fullName}</Text>
+                        <Text>{item.description}</Text>
+                        {item.language && <Text style={styles.language}>{item.language}</Text>}
+                    </View>
+                </View>
+                <View style={styles.statsContainer}>
+                    <View style={styles.stat}>
+                        <Text style={styles.statCount}>{starsCount(item.stargazersCount)}</Text>
+                        <Text>Stars</Text>
+                    </View>
+                    <View style={styles.stat}>
+                        <Text style={styles.statCount}>{item.forksCount}</Text>
+                        <Text>Forks</Text>
+                    </View>
+                    <View style={styles.stat}>
+                        <Text style={styles.statCount}>{item.reviewCount}</Text>
+                        <Text>Reviews</Text>
+                    </View>
+                    <View style={styles.stat}>
+                        <Text style={styles.statCount}>{item.ratingAverage}</Text>
+                        <Text>Rating</Text>
+                    </View>
                 </View>
             </View>
-            <View style={styles.statsContainer}>
-                <View style={styles.stat}>
-                    <Text style={styles.statCount}>{starsCount(item.stargazersCount)}</Text>
-                    <Text>Stars</Text>
-                </View>
-                <View style={styles.stat}>
-                    <Text style={styles.statCount}>{item.forksCount}</Text>
-                    <Text>Forks</Text>
-                </View>
-                <View style={styles.stat}>
-                    <Text style={styles.statCount}>{item.reviewCount}</Text>
-                    <Text>Reviews</Text>
-                </View>
-                <View style={styles.stat}>
-                    <Text style={styles.statCount}>{item.ratingAverage}</Text>
-                    <Text>Rating</Text>
-                </View>
-            </View>
-        </View>
+        </Link>
     );
 };
 
