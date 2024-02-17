@@ -27,10 +27,8 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-    const me = useMe();
-    const signOut = useSignOut()
-    console.log("🚀 ~ AppBar ~ signOut:", signOut)
-    console.log("🚀 ~ AppBar ~ me:", me)
+    const { data: meData } = useMe(); // Destructured for clarity
+    const signOut = useSignOut();
 
     return (
         <View style={styles.container}>
@@ -44,9 +42,15 @@ const AppBar = () => {
                 <Link to="/" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
-                {me.data?.me?.id ? <Text style={styles.text} onPress={signOut}>Sign out</Text> : <Link to="/sign-in" component={Pressable} style={styles.link}>
-                    <Text style={styles.text}>Sign In</Text>
-                </Link>}
+                {meData?.me?.id ? (
+                    <Pressable style={styles.link} onPress={signOut}>
+                        <Text style={styles.text}>Sign out</Text>
+                    </Pressable>
+                ) : (
+                    <Link to="/sign-in" component={Pressable} style={styles.link}>
+                        <Text style={styles.text}>Sign In</Text>
+                    </Link>
+                )}
                 {/* Add more links/tabs as needed */}
             </ScrollView>
         </View>
