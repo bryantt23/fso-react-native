@@ -27,3 +27,24 @@ export const CREATE_REVIEW = gql`
   }
 `;
 
+export const CREATE_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(user: $input) {
+      id
+      username
+      createdAt
+      reviewCount
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+          }
+        }
+      }
+    }
+  }
+  
+`

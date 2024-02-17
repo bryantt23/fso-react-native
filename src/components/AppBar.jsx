@@ -52,9 +52,14 @@ const AppBar = () => {
                         </Pressable>
                     </View>
                 ) : (
-                    <Link to="/sign-in" component={Pressable} style={styles.link}>
-                        <Text style={styles.text}>Sign In</Text>
-                    </Link>
+                    <View style={{ flexDirection: 'row' }}> {/* Use View with a row direction */}
+                        <Link to="/sign-in" component={Pressable} style={styles.link}>
+                            <Text style={styles.text}>Sign In</Text>
+                        </Link>
+                        <Link to="/sign-up" component={Pressable} style={styles.link}>
+                            <Text style={styles.text}>Sign Up</Text>
+                        </Link>
+                    </View>
                 )}
                 {/* Add more links/tabs as needed */}
             </ScrollView>
