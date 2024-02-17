@@ -109,7 +109,7 @@ const ReviewItem = ({ review }) => {
 
 
 const MyReviews = () => {
-    const { reviews, loading, error } = useMe();
+    const { reviews, loading, error, fetchMore } = useMe();
 
     if (loading) {
         return <View style={styles.centered}><ActivityIndicator size="large" /></View>;
@@ -125,6 +125,9 @@ const MyReviews = () => {
                 data={reviews}
                 renderItem={({ item }) => <ReviewItem review={item} />}
                 keyExtractor={item => item.id.toString()}
+                onEndReached={fetchMore}
+                onEndReachedThreshold={0.5} // Fetch more items when half of the list is displayed
+                ListFooterComponent={loading ? <ActivityIndicator size="small" /> : null}
             />
         </View>
     );

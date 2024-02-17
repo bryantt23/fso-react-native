@@ -25,28 +25,33 @@ export const GET_REPOSITORIES = gql`
 
 // other queries...
 export const GET_ME = gql`
-  query {
-    me {
+    query Me($first: Int, $after: String) {
+  me {
     id
     username
-      reviews {
-        edges {
-          node {
-          createdAt
-          rating
-          text
+    reviews(first: $first, after: $after) {
+      edges {
+        node {
           id
+          text
+          rating
+          createdAt
           repositoryId
-            repository {
+          repository {
             id
             fullName
             url
           }
         }
       }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
 }
+
 `;
 
 

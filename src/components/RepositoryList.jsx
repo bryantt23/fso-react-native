@@ -54,14 +54,6 @@ const RepositoryList = () => {
         setSearchKeyword(value);
     }, []);
 
-    // if (loading) {
-    //     return (
-    //         <View style={styles.centered}>
-    //             <ActivityIndicator size="large" color="#0000ff" />
-    //         </View>
-    //     );
-    // }
-
     if (error) {
         return (
             <View style={styles.centered}>
