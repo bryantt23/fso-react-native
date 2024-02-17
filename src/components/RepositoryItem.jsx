@@ -57,7 +57,7 @@ const RepositoryItem = ({ item }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="repositoryItem">
             <View style={styles.topContainer}>
                 <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
                 <View>
