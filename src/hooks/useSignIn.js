@@ -5,7 +5,6 @@ import { useApolloClient } from '@apollo/client';
 
 const useSignIn = () => {
     const authStorage = useAuthStorage();
-    // Use the useQuery hook to fetch the repositories
     const [mutate, result] = useMutation(AUTHENTICATE);
     const apolloClient = useApolloClient(); // Access the Apollo Client instance
 

@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable, Text, ScrollView } from 'react-native';
 import theme from '../theme';
 import { Link } from 'react-router-native';
 import useMe from '../hooks/useMe';
+import useSignOut from '../hooks/useSignOut';
 
 const styles = StyleSheet.create({
     container: {
@@ -27,6 +28,8 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
     const me = useMe();
+    const signOut = useSignOut()
+    console.log("🚀 ~ AppBar ~ signOut:", signOut)
     console.log("🚀 ~ AppBar ~ me:", me)
 
     return (
@@ -41,7 +44,7 @@ const AppBar = () => {
                 <Link to="/" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
-                {me.data?.me?.id ? <Text style={styles.text}>Sign out</Text> : <Link to="/sign-in" component={Pressable} style={styles.link}>
+                {me.data?.me?.id ? <Text style={styles.text} onPress={signOut}>Sign out</Text> : <Link to="/sign-in" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Sign In</Text>
                 </Link>}
                 {/* Add more links/tabs as needed */}
