@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text, FlatList, Linking, StyleSheet } from 'react-native';
 import useMe from '../hooks/useMe'; // make sure to import your useMe hook correctly
+import useDeleteReview from '../hooks/useDeleteReview';
 
 const styles = StyleSheet.create({
     container: {
@@ -51,9 +52,18 @@ const styles = StyleSheet.create({
 });
 
 const ReviewItem = ({ review }) => {
+    console.log("🚀 ~ ReviewItem ~ review:", review)
     // Convert date string to a Date object
     const reviewDate = new Date(review.createdAt).toLocaleDateString();
+    const [deleteReview] = useDeleteReview(); // Get the deleteReview function from the hook
 
+    const handleDelete = () => {
+        deleteReview(review.id); // Call deleteReview with the id of the review
+    };
+
+    const openInGitHub = () => {
+        Linking.openURL(review.repository.url);
+    };
     return (
         <View style={styles.reviewItem}>
             <View style={styles.reviewHeader}>
@@ -64,6 +74,12 @@ const ReviewItem = ({ review }) => {
                 <Text style={styles.reviewDate}>{reviewDate}</Text>
             </View>
             <Text style={styles.reviewText}>{review.text}</Text>
+            <TouchableOpacity style={styles.button} onPress={openInGitHub}>
+                <Text style={styles.buttonText}>Open in GitHub</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleDelete}>
+                <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
         </View>
     );
 };

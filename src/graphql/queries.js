@@ -40,6 +40,7 @@ export const GET_ME = gql`
             repository {
             id
             fullName
+            url
           }
         }
       }
