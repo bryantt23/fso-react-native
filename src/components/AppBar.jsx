@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Pressable, Text, ScrollView } from 'react-native';
 import theme from '../theme';
 import { Link } from 'react-router-native';
+import useMe from '../hooks/useMe';
 
 const styles = StyleSheet.create({
     container: {
@@ -25,7 +26,8 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-    // Logic to determine active tab can go here
+    const me = useMe();
+    console.log("🚀 ~ AppBar ~ me:", me)
 
     return (
         <View style={styles.container}>
@@ -39,9 +41,9 @@ const AppBar = () => {
                 <Link to="/" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
-                <Link to="/sign-in" component={Pressable} style={styles.link}>
+                {me.data?.me?.id ? <Text style={styles.text}>Sign out</Text> : <Link to="/sign-in" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Sign In</Text>
-                </Link>
+                </Link>}
                 {/* Add more links/tabs as needed */}
             </ScrollView>
         </View>
