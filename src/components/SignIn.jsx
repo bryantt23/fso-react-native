@@ -32,17 +32,18 @@ const styles = StyleSheet.create({
 });
 
 const SignIn = () => {
-    // const [signIn] = useSignIn();
+    const [signIn] = useSignIn();
 
     const onSubmit = async (values) => {
-        // const { username, password } = values;
+        console.log("🚀 ~ onSubmit ~ values:", values)
+        const { username, password } = values;
 
-        // try {
-        //     const { data } = await signIn({ username, password });
-        //     console.log(data);
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        try {
+            const { data } = await signIn({ username, password });
+            console.log(data);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const validationSchema = yup.object().shape({
@@ -56,7 +57,7 @@ const SignIn = () => {
 
     return (
         <Formik
-            initialValues={{ username: '', password: '' }}
+            initialValues={{ username: 'kalle', password: 'password' }}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
         >
