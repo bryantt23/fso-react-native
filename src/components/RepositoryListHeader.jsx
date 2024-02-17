@@ -1,6 +1,7 @@
 // RepositoryListHeader.js
 import React from 'react';
-import { Picker, TextInput, View, StyleSheet } from 'react-native';
+import { TextInput, View, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const styles = StyleSheet.create({
     picker: {
