@@ -1,14 +1,50 @@
 import React from 'react';
-import { View, Pressable, Text } from 'react-native';
+import { View, Pressable, Text, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import FormikTextInput from './FormikTextInput';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
 
-// Your SignIn component
+// Define styles
+const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        backgroundColor: '#fff',
+    },
+    input: {
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+    },
+    button: {
+        backgroundColor: '#0366d6',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+});
+
 const SignIn = () => {
-    const onSubmit = (values) => {
-        console.log(values);
+    // const [signIn] = useSignIn();
+
+    const onSubmit = async (values) => {
+        // const { username, password } = values;
+
+        // try {
+        //     const { data } = await signIn({ username, password });
+        //     console.log(data);
+        // } catch (e) {
+        //     console.log(e);
+        // }
     };
+
     const validationSchema = yup.object().shape({
         username: yup
             .string()
@@ -25,8 +61,9 @@ const SignIn = () => {
             validationSchema={validationSchema}
         >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
-                <View>
+                <View style={styles.container}>
                     <FormikTextInput
+                        style={styles.input}
                         name="username"
                         placeholder="Username"
                         onChangeText={handleChange('username')}
@@ -34,6 +71,7 @@ const SignIn = () => {
                         value={values.username}
                     />
                     <FormikTextInput
+                        style={styles.input}
                         name="password"
                         placeholder="Password"
                         onChangeText={handleChange('password')}
@@ -41,9 +79,8 @@ const SignIn = () => {
                         value={values.password}
                         secureTextEntry={true}
                     />
-                    {/* When this is pressed, Formik's handleSubmit will call the onSubmit function with form values */}
-                    <Pressable onPress={handleSubmit}>
-                        <Text>Sign In</Text>
+                    <Pressable style={styles.button} onPress={handleSubmit}>
+                        <Text style={styles.buttonText}>Sign In</Text>
                     </Pressable>
                 </View>
             )}
