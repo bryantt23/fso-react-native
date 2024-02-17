@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, FlatList, Linking, StyleSheet } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View, Text, FlatList, Linking, StyleSheet, Alert } from 'react-native';
 import useMe from '../hooks/useMe'; // make sure to import your useMe hook correctly
 import useDeleteReview from '../hooks/useDeleteReview';
 
@@ -48,14 +48,37 @@ const styles = StyleSheet.create({
     reviewText: {
         fontSize: 16,
         color: 'black',
+    }, button: {
+        marginTop: 10,
+        borderRadius: 5,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    viewButton: {
+        backgroundColor: '#0366d6', // blue color
+    },
+    deleteButton: {
+        backgroundColor: '#d73a4a', // red color
+    },
+    // Add style for centered content
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        color: 'red',
     },
 });
 
 const ReviewItem = ({ review }) => {
-    console.log("🚀 ~ ReviewItem ~ review:", review)
-    // Convert date string to a Date object
     const reviewDate = new Date(review.createdAt).toLocaleDateString();
-    const [deleteReview] = useDeleteReview(); // Get the deleteReview function from the hook
+    const [deleteReview] = useDeleteReview();
 
     const handleDelete = () => {
         deleteReview(review.id); // Call deleteReview with the id of the review
@@ -64,35 +87,36 @@ const ReviewItem = ({ review }) => {
     const openInGitHub = () => {
         Linking.openURL(review.repository.url);
     };
+
     return (
         <View style={styles.reviewItem}>
             <View style={styles.reviewHeader}>
-                <Text style={styles.reviewRating}> {review.repository.fullName}</Text>
                 <View style={styles.reviewRatingContainer}>
                     <Text style={styles.reviewRating}>{review.rating}</Text>
                 </View>
                 <Text style={styles.reviewDate}>{reviewDate}</Text>
             </View>
             <Text style={styles.reviewText}>{review.text}</Text>
-            <TouchableOpacity style={styles.button} onPress={openInGitHub}>
-                <Text style={styles.buttonText}>Open in GitHub</Text>
+            <TouchableOpacity style={[styles.button, styles.viewButton]} onPress={openInGitHub}>
+                <Text style={styles.buttonText}>View Repository</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleDelete}>
-                <Text style={styles.buttonText}>Delete</Text>
+            <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDelete}>
+                <Text style={styles.buttonText}>Delete Review</Text>
             </TouchableOpacity>
         </View>
     );
 };
 
+
 const MyReviews = () => {
     const { reviews, loading, error } = useMe();
 
     if (loading) {
-        return <View style={styles.centered}><Text>Loading reviews...</Text></View>;
+        return <View style={styles.centered}><ActivityIndicator size="large" /></View>;
     }
 
     if (error) {
-        return <View style={styles.centered}><Text>An error occurred: {error.message}</Text></View>;
+        return <View style={styles.centered}><Text style={styles.errorText}>{error.message}</Text></View>;
     }
 
     return (
@@ -100,7 +124,7 @@ const MyReviews = () => {
             <FlatList
                 data={reviews}
                 renderItem={({ item }) => <ReviewItem review={item} />}
-                keyExtractor={(item) => item.id}
+                keyExtractor={item => item.id.toString()}
             />
         </View>
     );

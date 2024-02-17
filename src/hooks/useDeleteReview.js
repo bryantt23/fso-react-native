@@ -5,16 +5,13 @@ import { GET_ME } from '../graphql/queries'; // Assuming this is your query to f
 const useDeleteReview = () => {
     const [mutate, { data, loading, error }] = useMutation(DELETE_REVIEW, {
         refetchQueries: [{ query: GET_ME }],
-        // Optionally, you can use awaitRefetchQueries to wait for the refetch queries to complete
-        awaitRefetchQueries: true,
     });
 
     const deleteReview = async (id) => {
         try {
-            const response = await mutate({
+            await mutate({
                 variables: { id },
             });
-            return response.data.deleteReview; // This should be a boolean
         } catch (e) {
             console.error(e);
         }
