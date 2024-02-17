@@ -43,9 +43,14 @@ const AppBar = () => {
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
                 {meData?.me?.id ? (
-                    <Pressable style={styles.link} onPress={signOut}>
-                        <Text style={styles.text}>Sign out</Text>
-                    </Pressable>
+                    <View style={{ flexDirection: 'row' }}> {/* Use View with a row direction */}
+                        <Link to="/create-review" component={Pressable} style={styles.link}>
+                            <Text style={styles.text}>Create a Review</Text>
+                        </Link>
+                        <Pressable style={styles.link} onPress={signOut}>
+                            <Text style={styles.text}>Sign out</Text>
+                        </Pressable>
+                    </View>
                 ) : (
                     <Link to="/sign-in" component={Pressable} style={styles.link}>
                         <Text style={styles.text}>Sign In</Text>

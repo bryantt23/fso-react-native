@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+    console.log("🚀 ~ RepositoryItem ~ item:", item)
     const starsCount = (stars) => {
         if (stars < 1000) {
             return stars.toString();
