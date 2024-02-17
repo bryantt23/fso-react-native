@@ -27,7 +27,9 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-    const { data: meData } = useMe(); // Destructured for clarity
+    const { me, loading, error } = useMe(); // Destructure data as meData, and also get loading and error if needed
+    console.log("🚀 ~ AppBar ~ me:", me)
+
     const signOut = useSignOut();
 
     return (
@@ -42,10 +44,13 @@ const AppBar = () => {
                 <Link to="/" component={Pressable} style={styles.link}>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
-                {meData?.me?.id ? (
+                {me?.id ? (
                     <View style={{ flexDirection: 'row' }}> {/* Use View with a row direction */}
                         <Link to="/create-review" component={Pressable} style={styles.link}>
                             <Text style={styles.text}>Create a Review</Text>
+                        </Link>
+                        <Link to="/my-reviews" component={Pressable} style={styles.link}>
+                            <Text style={styles.text}>My Reviews</Text>
                         </Link>
                         <Pressable style={styles.link} onPress={signOut}>
                             <Text style={styles.text}>Sign out</Text>

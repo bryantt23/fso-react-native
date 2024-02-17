@@ -27,41 +27,57 @@ export const GET_REPOSITORIES = gql`
 export const GET_ME = gql`
   query {
     me {
-      id
-      username
-    }
-}
-`;
-
-export const GET_REPOSITORY = gql`
-  query Repository($id: ID!) {
-    repository(id: $id) {
-      id
-      name
-      fullName
-      description
-      stargazersCount
-      ownerName
-      ownerAvatarUrl
-      forksCount
-      reviewCount
-      ratingAverage
-      language
-      url
+    id
+    username
       reviews {
         edges {
           node {
+          createdAt
+          rating
+          text
+          id
+          repositoryId
+            repository {
             id
-            text
-            rating
-            createdAt
-            user {
-              id
-              username
-            }
+            fullName
           }
         }
       }
     }
   }
+}
+`;
+
+
+export const GET_REPOSITORY = gql`
+  query Repository($id: ID!) {
+  repository(id: $id) {
+    id
+    name
+    fullName
+    description
+    stargazersCount
+    ownerName
+    ownerAvatarUrl
+    forksCount
+    reviewCount
+    ratingAverage
+    language
+    url
+      reviews {
+        edges {
+          node {
+          id
+          text
+          rating
+          createdAt
+            user {
+            id
+            username
+          }
+        }
+      }
+    }
+  }
+}
 `;
